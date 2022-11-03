@@ -1,0 +1,144 @@
+:root {
+    --background-gradient: linear-gradient(30deg, #f39c12 30%, #f1c40f);
+    --gray: #34495e;
+    --darkgray: #2c3e50;
+  }
+
+* {
+    font-family: sans-serif;
+}
+
+
+body{
+    width: 100%;
+    margin: 0px;
+}
+
+.title{
+    margin: auto;
+    margin-bottom: 20px;
+    padding: 20px;
+    width: 100%;
+    text-align: center;
+    background-color: rgb(43, 43, 43);
+    color: rgb(255, 255, 255);
+}
+
+.sort{
+    margin:auto;
+    width:100%;
+    text-align: center;
+}
+
+select {
+    margin-bottom: 1em;
+    padding: .25em;
+    border: 0;
+    border-bottom: 2px solid currentcolor; 
+    font-weight: bold;
+    letter-spacing: .15em;
+    border-radius: 0;
+}
+
+#table {
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    min-width: 400px;
+    border-radius: 5px 5px 0 0;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+#table thead tr {
+    background-color: #009879;
+    color: #ffffff;
+    text-align: left;
+    font-weight: bold;
+}
+
+#table th,
+#table td {
+    padding: 12px 15px;
+}
+
+#table tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+#table tr:last-of-type {
+    border-bottom: 2px solid #009879;
+}
+
+#table tr.active-row {
+    font-weight: bold;
+    color: #009879;
+}
+
+.table-container{
+    display:flex;
+    justify-content: center;
+}
+
+#sort-button {
+    background-color: #009879;
+    border-radius: 4px;
+    border: 0;
+    box-shadow: rgba(16, 126, 21, 0.5) 0 -1px 3px 0 inset,rgba(13, 143, 82, 0.1) 0 3px 6px 0;
+    box-sizing: border-box;
+    color: #fff;
+    cursor: pointer;
+    font-family: "Space Grotesk",-apple-system,system-ui,"Segoe UI",Roboto,Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 12px;
+    margin-left: 10px;
+    padding: 12px 15px;
+    position: relative;
+    text-align: center;
+    touch-action: manipulation;
+    vertical-align: baseline;
+  }
+  
+ #sort-button:hover {
+    background-color: #0e7e67;
+    transition-duration: 0.25s;
+  }
+
+#sort-button:not(:hover) {
+    background-color: #009879;
+    transition-duration: 0.25s;
+  }
+#sort-button:disabled{
+    background-color: #afafaf;
+    border: 1px solid #8b8b8b;
+    box-shadow: rgba(109, 109, 109, 0.5) 0 -1px 3px 0 inset,rgba(124, 124, 124, 0.1) 0 3px 6px 0;
+    cursor: not-allowed;
+}
+
+#loading-table {
+    margin:auto;
+    width:100%;
+    text-align: center;
+    width: 50px;
+    height: 50px;
+  }
+#loading-table:after {
+    content: " ";
+    display: block;
+    width: 32px;
+    height: 32px;
+    margin: 8px;
+    border-radius: 50%;
+    border: 6px solid #009879;
+    border-color: #009879 transparent #009879 transparent;
+    animation: lds-dual-ring 1.2s linear infinite;
+}
+@keyframes lds-dual-ring {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+}

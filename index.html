@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" type="text/css" href="css/style.css">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Interview task - FlowForma</title>
+    </head>
+    <body>
+        <h1 class ="title">FlowForma - interview task</h1>
+        <div class ="sort">
+            <label for="params">Sort by:</label>
+            <select name="params" id="params">
+              <option value="name">Name</option>
+              <option value="tech">Tech</option>
+              <option value="age">Age</option>
+            </select>
+            <button id="sort-button" role="button" disabled="true">Sort</button>
+        </div>
+        <div id="loading-table"></div>
+        <div class="table-container">
+        <table id="table">
+            <thead>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+    </body>
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+    <script src="js/main.js"></script>
+</html>
