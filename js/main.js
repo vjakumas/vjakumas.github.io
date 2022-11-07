@@ -2,9 +2,6 @@ const getNamesUrl = "https://tomsen.dev/FlowFormaAPI/names";
 const getTechUrl = "https://tomsen.dev/FlowFormaAPI/tech";
 const getAgeUrl = "https://tomsen.dev/FlowFormaAPI/getdate/"
 
-var names = [];
-var techs = [];
-var ages = [];
 var dataObject = [];
 
 function getAge(birth, death)
@@ -27,7 +24,6 @@ function getAge(birth, death)
 
 function renderHtml(dataObj, sortParam)
 {
-    console.log(sortParam);
     dataObj.sort(dynamicSort(sortParam));
 
     tableHeader = `
@@ -75,10 +71,10 @@ function dynamicSort(property)
 
 function getData(sortOption)
 {
-    let firstAPICall = fetch(getNamesUrl);
-    let secondAPICall = fetch(getTechUrl);
+    let namesAPICall = fetch(getNamesUrl);
+    let techsAPICall = fetch(getTechUrl);
     
-    Promise.all([firstAPICall, secondAPICall])
+    Promise.all([namesAPICall, techsAPICall])
         .then(values => Promise.all(values.map(value => value.json())))
         .then(finalValues => {
             names = finalValues[0];
@@ -98,14 +94,11 @@ function getData(sortOption)
 }
 
 function printData(allNames, allTechs, allAges, sortOption){
-    names = allNames
-    techs = allTechs;
-    ages = allAges;
 
-    var newDataObject = createDataObject(names, techs, ages);
+    var newDataObject = createDataObject(allNames, allTechs, allAges);
     dataObject = newDataObject;
     renderHtml(dataObject, sortOption);
-    
+
     $('#sort-button').prop('disabled', false)
     $('#loading-table').remove();
 }
