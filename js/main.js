@@ -5,16 +5,7 @@ const getAgeUrl = "https://tomsen.dev/FlowFormaAPI/getdate/"
 var names = [];
 var techs = [];
 var ages = [];
-var dataObj = [];
-
-async function fetchUrl(url){
-    const response = await fetch(url, {
-        method: 'GET',
-        dataType: 'json'
-    });
-    const values = await response.json();
-    return values;
-}
+var dataObject = [];
 
 function getAge(birth, death)
 {
@@ -34,23 +25,7 @@ function getAge(birth, death)
     return age;
 }
 
-async function fetchAges(url, names){
-    var ages = [];
-    for await (const name of names){
-        const response = await fetch(url + name, {
-            method: 'GET',
-            dataType: 'json'
-        });
-        const value = await response.json();
-        const bday = value.Birth;
-        const death = value.Death;
-        var age = getAge(bday, death);
-        ages.push(age);
-    }
-    return ages;
-}
-
-function printDataBySort(dataObj, sortParam)
+function renderHtml(dataObj, sortParam)
 {
     console.log(sortParam);
     dataObj.sort(dynamicSort(sortParam));
@@ -82,7 +57,8 @@ function createDataObject(names, techs, ages){
     var data = [];
     for(let i = 0; i < names.length; i++)
     {
-        let dataRow = {name: names[i], tech: techs[i], age: ages[i]}
+        var newAge = getAge(ages[i].Birth, ages[i].Death);
+        let dataRow = {name: names[i], tech: techs[i], age: newAge}
         data[i] = dataRow;
     }
     return data;
@@ -97,23 +73,47 @@ function dynamicSort(property)
 }
 
 
-async function renderData(sortParam){
-    names = await fetchUrl(getNamesUrl);
-    techs = await fetchUrl(getTechUrl);
-    ages = await fetchAges(getAgeUrl, names);
+function getData(sortOption)
+{
+    let firstAPICall = fetch(getNamesUrl);
+    let secondAPICall = fetch(getTechUrl);
+    
+    Promise.all([firstAPICall, secondAPICall])
+        .then(values => Promise.all(values.map(value => value.json())))
+        .then(finalValues => {
+            names = finalValues[0];
+            techs = finalValues[1];
+            
+            let promiseArray = []
+            names.map(name => {
+                promiseArray.push(fetch(getAgeUrl + name))
+            })
 
-    dataObj = createDataObject(names,techs,ages);
+            Promise.all(promiseArray)
+            .then(values=>Promise.all(values.map(value => value.json())))
+            .then(finalValues => {
+                printData(names,techs,finalValues,sortOption);
+            })
+        });
+}
 
-    printDataBySort(dataObj, sortParam);
+function printData(allNames, allTechs, allAges, sortOption){
+    names = allNames
+    techs = allTechs;
+    ages = allAges;
 
+    var newDataObject = createDataObject(names, techs, ages);
+    dataObject = newDataObject;
+    renderHtml(dataObject, sortOption);
+    
     $('#sort-button').prop('disabled', false)
     $('#loading-table').remove();
 }
 
-$( document ).ready( renderData( $("#params option:selected").text().toLowerCase() ) );
+$( document ).ready( getData($("#params option:selected").text().toLowerCase() ) );
 
 $("#sort-button").click( function(){
     $("#table td").remove();
     $("#table th").remove();
-    printDataBySort( dataObj, $("#params option:selected").text().toLowerCase() )
+    renderHtml( dataObject, $("#params option:selected").text().toLowerCase() )
 });
